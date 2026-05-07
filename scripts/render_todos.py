@@ -187,6 +187,8 @@ def main() -> int:
     try:
         project_root = Path(cwd)
         todos_dir = project_root / ".claude" / "todos"
+        if (todos_dir / ".paused").exists():
+            return 0
         todos_dir.mkdir(parents=True, exist_ok=True)
 
         md = render_session_md(session_id, todos, str(project_root))

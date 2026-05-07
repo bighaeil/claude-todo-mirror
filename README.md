@@ -189,6 +189,30 @@ back through chat or copy-pasting paths.
 The `<plugin-dir>` path under `~/.claude/plugins/cache/claude-todo-mirror/` is
 the script's location once installed via the marketplace.
 
+## Pause and resume mirroring (`/todos-pause`, `/todos-resume`)
+
+Want to keep the plugin installed but temporarily stop markdown mirroring
+(e.g. during a quick scratchpad session you don't want to record)? Two
+slash commands toggle a per-project flag:
+
+```
+/todos-pause     # creates .claude/todos/.paused → mirroring suspended
+/todos-resume    # removes the flag → mirroring active again
+```
+
+When `.paused` exists, every `TodoWrite` call still triggers the hook, but
+`render_todos.py` short-circuits on the flag and writes nothing — no
+`session-*.md` updates, and any open `/todos-watch` monitor stays frozen.
+
+Notes:
+
+- The flag is **per-project** (one flag per `${CLAUDE_PROJECT_DIR}/.claude/todos/`).
+  Pausing one project does not affect mirroring in another.
+- `TodoWrite` token usage is **not affected** — Claude still calls the tool
+  based on its own judgment. Only the file mirroring is suppressed.
+- The `.paused` file itself is empty; you can also create or remove it
+  manually with `touch` / `rm` if you prefer.
+
 ## Requirements
 
 - Claude Code (any version that supports the plugin system + `PostToolUse` hooks)
@@ -292,3 +316,18 @@ Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합�
 상세 사전 요구사항·OS 호환성·Linux/Windows 대안은 위 영문 섹션
 [Live terminal monitor (`/todos-watch`)](#live-terminal-monitor-todos-watch)
 를 참조하세요.
+
+### 미러링 일시정지·재개 — `/todos-pause`, `/todos-resume`
+
+플러그인은 그대로 두고 markdown 미러링만 잠시 끄고 싶을 때 사용합니다.
+
+- `/todos-pause` → 현재 프로젝트의 `.claude/todos/.paused` flag 생성. 이후
+  `TodoWrite` 호출이 일어나도 markdown 파일은 갱신되지 않습니다 (열어둔
+  `/todos-watch` 모니터도 정지된 상태로 보임).
+- `/todos-resume` → flag 제거. 다음 `TodoWrite` 호출부터 다시 갱신됩니다.
+
+flag는 **프로젝트별**이라 다른 프로젝트의 미러링에는 영향 없습니다. 또한
+`TodoWrite`의 토큰 사용 자체는 그대로 — Claude가 도구를 호출하는 것은 막지
+않고 markdown 저장만 중단합니다.
+
+상세는 위 영문 섹션 [Pause and resume mirroring](#pause-and-resume-mirroring-todos-pause-todos-resume) 참조.
