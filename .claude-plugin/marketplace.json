@@ -8,7 +8,7 @@
     {
       "name": "claude-todo-mirror",
       "description": "Mirror Claude Code TodoWrite state to per-session markdown files with hierarchical checkboxes — keep an always-visible task view in any markdown editor.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "source": {
         "source": "github",
         "repo": "bighaeil/claude-todo-mirror"
