@@ -12,5 +12,7 @@ venv/
 .vscode/
 .idea/
 
-# Claude local working state (the plugin itself writes here when run, but we don't ship it)
-.claude/todos/
+# Claude Code working state — none of this belongs in the plugin source.
+# Includes: todos/ written by this plugin's hook, settings.local.json,
+# session caches, and anything else Claude Code creates at runtime.
+.claude/

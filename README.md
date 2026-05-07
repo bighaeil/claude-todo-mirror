@@ -84,16 +84,32 @@ them in one table sorted by last activity:
 ## Install
 
 This repo is a **single-plugin marketplace** — `marketplace.json` is committed
-at `.claude-plugin/marketplace.json` so you can install it in one shot.
+at `.claude-plugin/marketplace.json` so you can install it via the standard
+plugin commands.
 
-In any Claude Code session:
+> **Heads up**: `/plugin ...` commands only work in the Claude Code **CLI**
+> (terminal), not in the Desktop app. Once installed, slash commands like
+> `/todos-watch` work in both Desktop and CLI.
+
+Open a Claude Code CLI session and enter these two commands **separately**
+(do not paste them on the same line — Claude Code parses the second one as
+part of the first command's URL):
 
 ```
 /plugin marketplace add bighaeil/claude-todo-mirror
+```
+
+Then, on its own:
+
+```
 /plugin install claude-todo-mirror@claude-todo-mirror
 ```
 
-Or for local development (no install needed):
+When the install dialog asks for scope, **"Install for you (user scope)"** is
+the right choice for personal use — the plugin becomes available across every
+project and any Claude Code surface (CLI, Desktop).
+
+For local development without going through the marketplace:
 
 ```
 claude --plugin-dir /path/to/claude-todo-mirror
@@ -228,10 +244,25 @@ TodoWrite([
 
 ### 설치
 
+> **주의**: `/plugin ...` 명령은 **Claude Code 터미널 CLI에서만** 동작합니다
+> (Desktop 앱에서는 안 됨). 설치 후 `/todos-watch` 같은 슬래시 명령은 Desktop과
+> CLI 양쪽에서 모두 사용 가능합니다.
+
+CLI 세션에서 두 명령을 **각각 따로** 입력하세요 — 한 줄에 같이 붙이면 Claude
+Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합니다.
+
 ```
 /plugin marketplace add bighaeil/claude-todo-mirror
+```
+
+그 다음 별도로:
+
+```
 /plugin install claude-todo-mirror@claude-todo-mirror
 ```
+
+설치 스코프 선택 다이얼로그가 뜨면 **"Install for you (user scope)"** 권장
+— 모든 프로젝트에서 사용 가능하고 Desktop에서도 슬래시 명령이 잡힙니다.
 
 또는 hook 직접 등록 (위 영어 섹션 "Manual hook registration" 참조).
 
