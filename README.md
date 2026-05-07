@@ -152,6 +152,19 @@ For multi-session overview, the `_index.md` is the single source of truth.
 
 ## Live terminal monitor (`/todos-watch`)
 
+> **Prerequisite** — this command depends on the macOS `watch` CLI. Without
+> it, the new Terminal window opens but immediately exits with
+> `command not found: watch`.
+>
+> ```bash
+> brew install watch
+> ```
+>
+> The core hook (`TodoWrite` → markdown mirroring) only needs Python 3 and
+> works on any OS. `watch` is a dependency **for the terminal live view
+> only** — if you open the markdown files directly in VS Code or Obsidian,
+> you don't need it.
+
 Don't want to leave an editor pinned? Run the bundled slash command from any
 Claude Code session:
 
@@ -164,12 +177,17 @@ project's `.claude/todos/`. It refreshes every 10 seconds and highlights any
 line that changes — every `TodoWrite` call shows up live without you scrolling
 back through chat or copy-pasting paths.
 
-Requirements: macOS, `watch` (`brew install watch`).
-On Linux/Windows, run the script directly:
+### Environment compatibility
 
-```bash
-bash <plugin-dir>/scripts/watch-todos.sh "$PWD"
-```
+| Environment | `/todos-watch` | Fallback |
+| --- | --- | --- |
+| macOS + `watch` installed | Works | — |
+| macOS + `watch` missing | Fails | `brew install watch` |
+| Linux | Unsupported (osascript-based) | Run `bash <plugin-dir>/scripts/watch-todos.sh "$PWD"` directly |
+| Windows | Unsupported | Same as Linux, via WSL or git-bash |
+
+The `<plugin-dir>` path under `~/.claude/plugins/cache/claude-todo-mirror/` is
+the script's location once installed via the marketplace.
 
 ## Requirements
 
@@ -268,33 +286,9 @@ Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합�
 
 ### 터미널 실시간 모니터링 — `/todos-watch`
 
-> **사전 요구사항** — 이 명령은 macOS의 `watch` CLI에 의존합니다. 미설치 상태에서
-> 실행하면 새 Terminal 창은 뜨지만 `command not found: watch`로 즉시 종료됩니다.
->
-> ```bash
-> brew install watch
-> ```
->
-> 핵심 hook (`TodoWrite` → markdown 미러링) 자체는 Python 3만 있으면 모든 OS에서
-> 동작합니다. `watch`는 **터미널 라이브 뷰만을 위한** 의존성이므로, VS Code나
-> Obsidian으로 markdown 파일을 직접 여는 워크플로우라면 설치하지 않아도 됩니다.
+`/todos-watch`로 새 macOS Terminal 창에서 todo 변경을 실시간 확인할 수 있습니다.
+사전에 `brew install watch` 필요 (macOS 기본 미설치).
 
-별도의 에디터를 열어두기 번거롭다면, 새 Claude Code 세션 안에서 그냥
-`/todos-watch`만 입력하세요:
-
-```
-/todos-watch
-```
-
-새 **macOS Terminal** 창이 자동으로 뜨면서 10초 간격으로 갱신되는 watch가
-시작됩니다 (`watch -d`로 변경된 줄은 강조 표시). 매 `TodoWrite` 호출이
-스크롤 없이 곧바로 보입니다.
-
-#### 환경별 동작
-
-| 환경 | `/todos-watch` | 대안 |
-| --- | --- | --- |
-| macOS + `watch` 설치됨 | 정상 동작 | — |
-| macOS + `watch` 미설치 | 실패 | `brew install watch` |
-| Linux | 미지원 (osascript) | `bash <plugin-dir>/scripts/watch-todos.sh "$PWD"` 직접 실행 |
-| Windows | 미지원 | WSL/git-bash에서 위 스크립트 직접 실행 |
+상세 사전 요구사항·OS 호환성·Linux/Windows 대안은 위 영문 섹션
+[Live terminal monitor (`/todos-watch`)](#live-terminal-monitor-todos-watch)
+를 참조하세요.
