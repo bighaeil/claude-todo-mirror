@@ -1,6 +1,6 @@
 {
   "name": "claude-todo-mirror",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Mirror Claude Code TodoWrite state to a per-session markdown file with hierarchical checkboxes — keep a live external view of your tasks without scrolling.",
   "author": {
     "name": "bighaeil"
