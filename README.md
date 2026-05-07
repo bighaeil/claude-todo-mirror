@@ -134,10 +134,32 @@ project's `.claude/settings.local.json` (or user `~/.claude/settings.json`):
 
 For multi-session overview, the `_index.md` is the single source of truth.
 
+## Live terminal monitor (`/todos-watch`)
+
+Don't want to leave an editor pinned? Run the bundled slash command from any
+Claude Code session:
+
+```
+/todos-watch
+```
+
+This opens a new **macOS Terminal** window running `watch -d` against this
+project's `.claude/todos/`. It refreshes once per second and highlights any
+line that changes — every `TodoWrite` call shows up live without you scrolling
+back through chat or copy-pasting paths.
+
+Requirements: macOS, `watch` (`brew install watch`).
+On Linux/Windows, run the script directly:
+
+```bash
+bash <plugin-dir>/scripts/watch-todos.sh "$PWD"
+```
+
 ## Requirements
 
 - Claude Code (any version that supports the plugin system + `PostToolUse` hooks)
 - Python 3 (any 3.8+ available on `python3` in `PATH`)
+- macOS + `watch` (only for `/todos-watch`; the core hook works on any platform)
 
 No other dependencies — the hook is a single self-contained Python file.
 
@@ -147,6 +169,11 @@ No other dependencies — the hook is a single self-contained Python file.
 hooks/hooks.json
   └─ PostToolUse(matcher=TodoWrite)
        └─ scripts/render_todos.py    (reads stdin JSON, writes markdown)
+
+commands/todos-watch.md
+  └─ /todos-watch
+       └─ scripts/launch-watch.sh    (osascript → new Terminal window)
+            └─ scripts/watch-todos.sh   (watch -d on the mirror files)
 ```
 
 The hook runs synchronously after every `TodoWrite`, parses the
@@ -207,3 +234,18 @@ TodoWrite([
 ```
 
 또는 hook 직접 등록 (위 영어 섹션 "Manual hook registration" 참조).
+
+### 터미널 실시간 모니터링 — `/todos-watch`
+
+별도의 에디터를 열어두기 번거롭다면, 새 Claude Code 세션 안에서 그냥
+`/todos-watch`만 입력하세요:
+
+```
+/todos-watch
+```
+
+새 **macOS Terminal** 창이 자동으로 뜨면서 1초 간격으로 갱신되는 watch가
+시작됩니다 (`watch -d`로 변경된 줄은 강조 표시). 매 `TodoWrite` 호출이
+스크롤 없이 곧바로 보입니다.
+
+요구사항: macOS, `watch` (`brew install watch`).
