@@ -268,6 +268,17 @@ Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합�
 
 ### 터미널 실시간 모니터링 — `/todos-watch`
 
+> **사전 요구사항** — 이 명령은 macOS의 `watch` CLI에 의존합니다. 미설치 상태에서
+> 실행하면 새 Terminal 창은 뜨지만 `command not found: watch`로 즉시 종료됩니다.
+>
+> ```bash
+> brew install watch
+> ```
+>
+> 핵심 hook (`TodoWrite` → markdown 미러링) 자체는 Python 3만 있으면 모든 OS에서
+> 동작합니다. `watch`는 **터미널 라이브 뷰만을 위한** 의존성이므로, VS Code나
+> Obsidian으로 markdown 파일을 직접 여는 워크플로우라면 설치하지 않아도 됩니다.
+
 별도의 에디터를 열어두기 번거롭다면, 새 Claude Code 세션 안에서 그냥
 `/todos-watch`만 입력하세요:
 
@@ -279,4 +290,11 @@ Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합�
 시작됩니다 (`watch -d`로 변경된 줄은 강조 표시). 매 `TodoWrite` 호출이
 스크롤 없이 곧바로 보입니다.
 
-요구사항: macOS, `watch` (`brew install watch`).
+#### 환경별 동작
+
+| 환경 | `/todos-watch` | 대안 |
+| --- | --- | --- |
+| macOS + `watch` 설치됨 | 정상 동작 | — |
+| macOS + `watch` 미설치 | 실패 | `brew install watch` |
+| Linux | 미지원 (osascript) | `bash <plugin-dir>/scripts/watch-todos.sh "$PWD"` 직접 실행 |
+| Windows | 미지원 | WSL/git-bash에서 위 스크립트 직접 실행 |
