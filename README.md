@@ -83,12 +83,17 @@ them in one table sorted by last activity:
 
 ## Install
 
+This repo is a **single-plugin marketplace** — `marketplace.json` is committed
+at `.claude-plugin/marketplace.json` so you can install it in one shot.
+
+In any Claude Code session:
+
 ```
 /plugin marketplace add bighaeil/claude-todo-mirror
-/plugin install claude-todo-mirror
+/plugin install claude-todo-mirror@claude-todo-mirror
 ```
 
-Or for local development:
+Or for local development (no install needed):
 
 ```
 claude --plugin-dir /path/to/claude-todo-mirror
@@ -96,6 +101,29 @@ claude --plugin-dir /path/to/claude-todo-mirror
 
 After install, every `TodoWrite` call in any project will create
 `.claude/todos/` under that project's root.
+
+### Manual hook registration (without `/plugin install`)
+
+If you can't or don't want to use the plugin marketplace, drop this into your
+project's `.claude/settings.local.json` (or user `~/.claude/settings.json`):
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /absolute/path/to/claude-todo-mirror/scripts/render_todos.py"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ### Recommended workflow
 
@@ -175,5 +203,7 @@ TodoWrite([
 
 ```
 /plugin marketplace add bighaeil/claude-todo-mirror
-/plugin install claude-todo-mirror
+/plugin install claude-todo-mirror@claude-todo-mirror
 ```
+
+또는 hook 직접 등록 (위 영어 섹션 "Manual hook registration" 참조).

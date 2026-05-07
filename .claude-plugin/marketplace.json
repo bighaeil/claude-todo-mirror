@@ -1,0 +1,15 @@
+{
+  "name": "claude-todo-mirror",
+  "owner": {
+    "name": "bighaeil",
+    "url": "https://github.com/bighaeil"
+  },
+  "plugins": [
+    {
+      "name": "claude-todo-mirror",
+      "description": "Mirror Claude Code TodoWrite state to per-session markdown files with hierarchical checkboxes — keep an always-visible task view in any markdown editor.",
+      "version": "0.1.0",
+      "source": "."
+    }
+  ]
+}
