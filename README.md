@@ -160,7 +160,7 @@ Claude Code session:
 ```
 
 This opens a new **macOS Terminal** window running `watch -d` against this
-project's `.claude/todos/`. It refreshes once per second and highlights any
+project's `.claude/todos/`. It refreshes every 10 seconds and highlights any
 line that changes — every `TodoWrite` call shows up live without you scrolling
 back through chat or copy-pasting paths.
 
@@ -275,7 +275,7 @@ Code가 두 번째 명령을 첫 명령의 URL 일부로 해석해서 실패합�
 /todos-watch
 ```
 
-새 **macOS Terminal** 창이 자동으로 뜨면서 1초 간격으로 갱신되는 watch가
+새 **macOS Terminal** 창이 자동으로 뜨면서 10초 간격으로 갱신되는 watch가
 시작됩니다 (`watch -d`로 변경된 줄은 강조 표시). 매 `TodoWrite` 호출이
 스크롤 없이 곧바로 보입니다.
 

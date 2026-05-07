@@ -9,7 +9,7 @@
 #   2. $CLAUDE_PROJECT_DIR env var
 #   3. current working directory
 #
-# Refreshes every 1s and highlights diffs. Shows the project-wide _index.md
+# Refreshes every 10s and highlights diffs. Shows the project-wide _index.md
 # on top, then the most recently updated session file below it.
 
 set -u
@@ -23,7 +23,7 @@ if ! command -v watch >/dev/null 2>&1; then
   exit 1
 fi
 
-watch -n 1 -d "
+watch -n 10 -d "
   echo '== INDEX (${TODOS_DIR}/_index.md) ==';
   if [ -f \"${TODOS_DIR}/_index.md\" ]; then
     cat \"${TODOS_DIR}/_index.md\";
